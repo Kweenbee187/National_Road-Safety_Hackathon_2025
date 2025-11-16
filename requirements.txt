@@ -6,5 +6,3 @@ langchain-groq
 sentence-transformers
 pandas
 numpy
-gradio
-groq
