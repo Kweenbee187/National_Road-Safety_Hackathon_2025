@@ -22,8 +22,9 @@ FAISS_BASE_DIR = "faiss_indices_by_category"
 
 os.makedirs(FAISS_BASE_DIR, exist_ok=True)
 
-# Load Groq API Key
-os.environ["GROQ_API_KEY"] = os.getenv("GROQ_API_KEY", "")
+# Load Groq API Key from environment
+if not os.getenv("GROQ_API_KEY"):
+    raise ValueError("GROQ_API_KEY environment variable not set!")
 
 
 # -------------------------------
@@ -69,19 +70,23 @@ for _, row in df.iterrows():
 # -------------------------------
 # 3. BUILD EMBEDDINGS + FAISS
 # -------------------------------
+print("Loading embeddings model...")
 embeddings = HuggingFaceEmbeddings(model_name=EMBED_MODEL)
 
 vectorstores = {}
 category_centroids = {}
 
+print("Building FAISS indices...")
 for cat, docs in docs_by_cat.items():
 
     safe_cat = cat.replace("/", "_").replace(" ", "_")
     idx_path = f"{FAISS_BASE_DIR}/faiss_{safe_cat}"
 
     if os.path.exists(idx_path) and os.listdir(idx_path):
+        print(f"Loading existing index for: {cat}")
         vs = FAISS.load_local(idx_path, embeddings, allow_dangerous_deserialization=True)
     else:
+        print(f"Creating new index for: {cat}")
         vs = FAISS.from_documents(docs, embeddings)
         vs.save_local(idx_path)
 
@@ -89,6 +94,8 @@ for cat, docs in docs_by_cat.items():
 
     emb = embeddings.embed_documents([d.page_content for d in docs])
     category_centroids[cat] = np.mean(np.array(emb), axis=0)
+
+print(f"Loaded {len(vectorstores)} categories")
 
 
 # -------------------------------
@@ -156,8 +163,10 @@ def format_docs(docs):
 # 6. MAIN RAG FUNCTION
 # -------------------------------
 def run_query(query):
-
+    """Run a query through the RAG pipeline"""
+    
     category, sim = choose_category(query)
+    print(f"Selected category: {category} (similarity: {sim:.3f})")
 
     vs = vectorstores.get(category)
     docs = vs.as_retriever(search_kwargs={"k": 3}).invoke(query)
