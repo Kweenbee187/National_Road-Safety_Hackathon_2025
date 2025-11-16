@@ -9,11 +9,11 @@ AI-powered system that recommends **IRC-based road safety interventions** using 
 
 ## 🎯 Features
 
-- **Intelligent Query Processing**: Uses semantic search to find relevant interventions
-- **Category-Based Retrieval**: Automatically categorizes queries for precise results
-- **IRC Standards**: All recommendations based on Indian Roads Congress guidelines
-- **Fast Inference**: Powered by Groq's lightning-fast LLM infrastructure
-- **User-Friendly Interface**: Clean Gradio UI for easy interaction
+- Intelligent query processing using semantic search
+- Category-based retrieval for precise results
+- IRC standards-based recommendations
+- Fast inference powered by Groq
+- Simple command-line interface
 
 ---
 
@@ -22,7 +22,7 @@ AI-powered system that recommends **IRC-based road safety interventions** using 
 ### Prerequisites
 
 - Python 3.8+
-- Groq API Key ([Get one here](https://console.groq.com))
+- Groq API Key ([Get one free](https://console.groq.com))
 
 ### Installation
 
@@ -39,23 +39,23 @@ pip install -r requirements.txt
 
 3. Set your Groq API key:
 ```bash
+# Linux/Mac
 export GROQ_API_KEY="your_api_key_here"
+
+# Windows (Command Prompt)
+set GROQ_API_KEY=your_api_key_here
+
+# Windows (PowerShell)
+$env:GROQ_API_KEY="your_api_key_here"
 ```
 
-Or create a `.env` file:
-```
-GROQ_API_KEY=your_api_key_here
-```
-
-4. Place your CSV file:
-- Ensure `GPT_Input_DB(Sheet1).csv` is in the root directory
+4. Make sure your CSV file is in the root directory:
+   - File name: `GPT_Input_DB(Sheet1).csv`
 
 5. Run the app:
 ```bash
 python app.py
 ```
-
-6. Open your browser to the URL shown (usually `http://127.0.0.1:7860`)
 
 ---
 
@@ -63,11 +63,11 @@ python app.py
 
 ```
 road-safety-rag/
-├── app.py                          # Gradio frontend
+├── app.py                          # CLI interface
 ├── rag_engine.py                   # RAG pipeline & logic
 ├── requirements.txt                # Python dependencies
 ├── GPT_Input_DB(Sheet1).csv        # Road safety database
-├── faiss_indices_by_category/      # Generated FAISS indices (auto-created)
+├── faiss_indices_by_category/      # FAISS indices (auto-generated)
 └── README.md                       # This file
 ```
 
@@ -75,21 +75,18 @@ road-safety-rag/
 
 ## 🔧 How It Works
 
-1. **Data Loading**: Reads road safety interventions from CSV database
+1. **Data Loading**: Reads road safety interventions from CSV
 2. **Embedding Generation**: Creates vector embeddings using sentence-transformers
-3. **FAISS Indexing**: Builds category-specific vector stores for fast retrieval
+3. **FAISS Indexing**: Builds category-specific vector stores
 4. **Query Processing**: 
-   - User submits a road safety issue
-   - System identifies the most relevant category
-   - Retrieves top-k matching interventions
-   - LLM generates a contextualized recommendation
+   - Identifies most relevant category
+   - Retrieves top-3 matching interventions
+   - LLM generates contextualized recommendation
 5. **Response**: Returns IRC-compliant intervention with codes and clauses
 
 ---
 
 ## 💡 Example Queries
-
-Try these sample queries:
 
 - "Sharp curve on highway without warning signs"
 - "Pedestrian crossing area lacking proper markings"
@@ -101,23 +98,20 @@ Try these sample queries:
 
 ## 🛠️ Technical Stack
 
-| Component | Technology |
-|-----------|-----------|
-| **LLM** | Groq (Llama 3.1-8B) |
-| **Embeddings** | sentence-transformers/all-mpnet-base-v2 |
-| **Vector Store** | FAISS |
-| **Framework** | LangChain |
-| **Frontend** | Gradio |
-| **Data Processing** | Pandas, NumPy |
+- **LLM**: Groq (Llama 3.1-8B)
+- **Embeddings**: sentence-transformers/all-mpnet-base-v2
+- **Vector Store**: FAISS
+- **Framework**: LangChain
+- **Data Processing**: Pandas, NumPy
 
 ---
 
 ## 📊 CSV Format
 
-Your CSV should have these columns:
+Your CSV must have these columns:
 
 - `S. No.` - Serial number
-- `problem` - Description of the road safety problem
+- `problem` - Description of road safety problem
 - `category` - Problem category
 - `type` - Type of intervention
 - `data` - Detailed description
@@ -126,55 +120,27 @@ Your CSV should have these columns:
 
 ---
 
-## 🔒 Environment Variables
-
-| Variable | Description | Required |
-|----------|-------------|----------|
-| `GROQ_API_KEY` | Your Groq API key | Yes |
-
----
-
 ## 🐛 Troubleshooting
 
-### "Missing GROQ_API_KEY"
-- Set the environment variable: `export GROQ_API_KEY="your_key"`
+**"GROQ_API_KEY environment variable not set!"**
+- Set the environment variable before running
 
-### "Missing column" error
-- Ensure your CSV has all required columns (see CSV Format section)
+**"Missing column" error**
+- Ensure CSV has all required columns
 
-### Slow first run
+**Slow first run**
 - First run builds FAISS indices (2-5 minutes)
-- Subsequent runs use cached indices and are much faster
+- Subsequent runs use cached indices
 
-### Dependencies not installing
+**Dependencies not installing**
 - Upgrade pip: `pip install --upgrade pip`
 - Try: `pip install -r requirements.txt --no-cache-dir`
 
 ---
 
-## 📈 Performance
-
-- **Embedding Model**: 768-dimensional vectors
-- **Retrieval**: Top-3 most relevant documents per query
-- **Response Time**: ~2-3 seconds per query (after initialization)
-- **Accuracy**: Category-based filtering ensures high precision
-
----
-
-## 🤝 Contributing
-
-Contributions welcome! Please:
-
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push and create a Pull Request
-
----
-
 ## 📄 License
 
-MIT License - feel free to use for your projects!
+MIT License
 
 ---
 
@@ -183,21 +149,6 @@ MIT License - feel free to use for your projects!
 **Sneha Chakraborty** & **Divyansh Pathak**
 
 *National Road Safety Hackathon 2025*
-
----
-
-## 🙏 Acknowledgments
-
-- Indian Roads Congress (IRC) for road safety standards
-- Groq for fast LLM inference
-- LangChain for RAG framework
-- HuggingFace for embeddings models
-
----
-
-## 📧 Contact
-
-For questions or support, reach out to Team MUFFIN!
 
 ---
 
