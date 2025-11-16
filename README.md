@@ -146,7 +146,9 @@ MIT License
 
 ## 👥 Team MUFFIN
 
-**Sneha Chakraborty** & **Divyansh Pathak**
+**Contributors:**
+- [@Kweenbee187](https://github.com/Kweenbee187) - Sneha Chakraborty
+- [@tituatgithub](https://github.com/tituatgithub) - Divyansh Pathak
 
 *National Road Safety Hackathon 2025*
 
