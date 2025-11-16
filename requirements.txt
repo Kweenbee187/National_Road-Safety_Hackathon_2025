@@ -1,0 +1,10 @@
+faiss-cpu
+langchain
+langchain-community
+langchain-huggingface
+langchain-groq
+sentence-transformers
+pandas
+numpy
+gradio
+groq
